@@ -1,0 +1,78 @@
+ {% load staticfiles %}
+<!DOCTYPE html>
+{% load static %} 
+
+<html lang="en">
+  <head>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/static/app/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/app/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/app/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/app/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/static/app/css/bootstrap-fluid-adj.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    </head>
+  
+
+<body>
+<br>
+<script src="static/app/js/bootstrap.js"></script>
+    <script src="static/app/js/bootstrap.min.js"></script>
+
+
+<div class="navbar navbar-inverse">
+    <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+    <a class="brand" href="#">HOME</a>
+    <ul class="nav">
+    <li class="active"><a href="#">Add users</a></li>
+    <li><a href="#">change password</a></li>
+    <li><a href="#">logout</a></li>
+ </div>    
+</div>
+    </div>
+
+<div>
+<button class="btn btn-large btn-primary" type="button">ADD SYSTEM</button>
+<button class="btn btn-large btn-primary" type="button">DELETE SYSTEM</button>
+<button class="btn btn-large btn-primary" type="button">UPDATE</button> 
+</div>   
+<h3> Enter the system details</h3>
+
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">USER ID</label>
+            <div class="controls">
+                <input type="text" id="inputEmail" placeholder="USER ID">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">PASSWORD</label>
+            <div class="controls">
+                <input type="text" id="inputEmail" placeholder="PASSWORD">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputPassword">OPERATING SYSTEM</label>
+            <div class="controls">
+                <input type="password" id="inputPassword" placeholder="OPERAATING SYSTEM">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">IP ADDRESS</label>
+            <div class="controls">
+                <input type="text" id="inputEmail" placeholder="IP ADDRESS">
+            </div>
+        </div>
+    <div class="control-group">
+    <div class="controls">
+    <button type="submit" class="btn">ADD SYSTEM</button>
+    </div>
+    </div>
+    </form>
+    
+  </body>
+</html>
+

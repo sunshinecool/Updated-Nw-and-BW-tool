@@ -1,0 +1,11 @@
+*.pyc
+.*.pyc
+*.py~
+*.html~
+*~
+.*~
+*.swp.*
+*.swp
+*.swo
+*.swn
+.*.sw*

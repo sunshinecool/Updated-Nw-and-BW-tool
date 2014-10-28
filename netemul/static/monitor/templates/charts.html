@@ -1,0 +1,16 @@
+<head>
+    <!-- code to include the highcharts and jQuery libraries goes here -->
+    <!-- load_charts filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+    <script src="/static/netemapp/js/jquery.min.js"></script>
+    <script src="/static/monitor/js/highcharts/highcharts.js"></script>
+    {% load chartit %}
+    {{ chart1|load_charts:"Bw,ApacSec,ApacSize,piechart" }}
+</head>
+<body>
+  <div id='Bw' > Chart will be rendered here </div>
+  <div id='ApacSec'> </div>
+ <div id='ApacSize' >  Chart will be rendered here </div>
+<div id='piechart'></div>
+
+</body>

@@ -1,0 +1,41 @@
+<html>                                                                                                                                                 
+<head>                                                                                                                                                 
+<script src="/static/netemapp/js/jquery.min.js"></script>                                                                                              
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>                                                               
+<script> function getData(){                                                                                                                           
+$(document).ready(function()                                                                                                                           
+            {                                                                                                                                          
+{% for pcs in hosts %}
+	$("#main").append('<div id="sim{{pcs.pcid}}"');
+{% endfor %}
+
+{% for pc in hosts %}                                                                                                                                  
+               $.ajax({                                                                                                                                
+                url :  "http://10.129.200.177:8000/monitor/livedata/?simid={{simid}}&pcid={{pc.pcid}}",                                      
+                success:function(data){
+			var jsondata = $.parseJSON(data);
+			console.log(jsondata)
+			var divid = jsondata['pcid'] 
+			 = jsondata['bwup']
+			$(divid).append = jsondata['bwdown']
+                }                                                                                                                                     
+                });                                                                                                                                    
+{% endfor %}                                                                                                                                           
+            });                                                                                                                                        
+                                                                                                                                                       
+                                                                                                                                                       
+}                                                                                                                                                      
+</script>                                                                                                                                              
+<script>                                                                                                                                               
+function loop(){                                                                                                                                       
+   getData();                                                                                                                                          
+setTimeout(loop,1000);                                                                                                            
+}
+loop();
+</script>                                                                                                                                            
+</head>
+<body>
+<div id="main">
+</div>
+</body>                                                                                                                               
+</html>

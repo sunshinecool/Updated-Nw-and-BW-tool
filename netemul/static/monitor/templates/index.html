@@ -1,0 +1,40 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+$(document).ready(function() {
+$(".testbut").click(function(){
+            var id = this.value;
+            alert("ADF");
+
+            var xmlhttp=new XMLHttpRequest(); 
+            xmlhttp.onreadystatechange=function()
+              {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        document.getElementById("charts").innerHTML=xmlhttp.responseText;
+
+                    }
+              }
+            xmlhttp.open("GET","/monitor/lstest/?id="+id,true);
+            xmlhttp.send();
+        });
+
+});
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+<form action="/monitor/direcmon/" method="POST">
+{%for h in hosts%}
+{{ h.hostip }}  {{ h.hostname }} <input type="checkbox" name="monpc" value="{{h.id}}"> <br>
+{%endfor%}
+<input type="submit">
+</form>
+<div id="charts">
+</div>
+</body>
+</html>

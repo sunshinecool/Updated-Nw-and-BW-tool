@@ -1,0 +1,64 @@
+<!--{% extends 'netemapp/templates/base.html' %}
+{% block javascript %} -->
+<script>
+function addhost(){
+
+document.getElementById("bottom").innerHTML=" ";
+/*
+document.getElementById("hostajaxdiv").innerHTML="<form action='http://127.0.0.1:8000/hostdbadd/' method='POST'> IP of Host : <input type='text' name='iprababu'></br><input type='submit' value='Add'>"+"<select name='interface'></form>";*/
+
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("hostajaxdiv").innerHTML=xmlhttp.responseText;
+    }
+  }
+
+xmlhttp.open("GET","/simulation/hostintadd/",true);
+xmlhttp.send();
+}
+$(".check").click(function(e) {
+        var ip = this.id;
+    var xmlhttp=new XMLHttpRequest();
+    xmlhttp.onreadystatechange=function()
+    {
+     if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {
+        if(xmlhttp.responseText=="up") alert(ip+" is up!");
+        if(xmlhttp.responseText=="down") alert(ip+" is down!");
+      }
+    }
+
+     xmlhttp.open("GET","/simulation/checkpc/?ip="+ip,true);
+     xmlhttp.send();
+    }
+  )
+</script>
+<!--{% endblock %}
+{% block content %}-->
+<div id="myDiv">
+</div>
+<link rel="stylesheet" href="/static/netemapp/css/netem.css" />
+<div id="head">
+<h1> Network Emulation </h1>
+</div>
+<div id=main>
+<form ="hostform" method="POST" action="/simulation/test/">
+<h2>Added Hosts</h2>
+{% csrf_token %}
+{% for host in hosts %}
+
+<input type="checkbox" name="hostid" value="{{ host.id }}">  {{host.hostip}} {{host.hostiface}}<button class="check" type="button" id="{{host.hostip}}" >Check</button><br>
+
+{% endfor %}
+</br>
+<input type="submit" value="Test">
+</form>
+</div>
+<div id="bottom">
+<button type="button" onclick="addhost()">Add Host</button>
+</div>
+<div id="hostajaxdiv"></div>
+<!--{% endblock %} -->

@@ -1,0 +1,168 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+{% load static %} 
+
+<html lang="en">
+  <head>
+   
+<script>
+function checkj()
+{
+var no1=document.getElementById("npass");
+var noo1=no1.value;
+if(noo1=="" )
+	{
+	alert("Enter new Password");
+	no1.focus();
+	return false;
+	}
+var no2=document.getElementById("npass2");
+var noo2=no2.value;
+if(noo2=="" )
+	{
+	alert("re-enter new password");
+	no1.focus();
+	return false;
+	}
+if(noo1==noo2)
+    {}
+else
+    {    
+    document.getElementById("p2").style.visibility="visible";
+    return false;    
+    }
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    
+ document.getElementById("notepass").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","/app/passc/?npass="+noo2,true);
+xmlhttp.send();
+}
+function up()
+{
+location.reload();
+}
+
+</script>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/static/netemapp/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/netemapp/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/netemapp/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/netemapp/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/static/netemapp/css/bootstrap-fluid-adj.css" rel="stylesheet">
+
+    <script type="text/javascript" src="/static/netemapp/js/bootstrap.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    
+    <script src="/static/netemapp/ModalTest/jquery.min.js"></script>
+<script src="/static/netemapp/ModalTest/bootstrap.min.js"></script>
+<script src="/static/netemapp/ModalTest/docs.min.js"></script>
+    <!-- Bootstrap -->
+
+{% block javascript %}
+    {% endblock %}
+
+
+    </head>
+  
+
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-inverse">
+     <div class="navbar-inner">
+<a class="brand" href="/app/home/">HOME</a>
+<ul class="nav">
+<li><a href="" data-target="#myModalp" data-toggle="modal">change password</a></li>
+<li><a href="/app/logout/">logout</a></li>
+</ul>
+</a>
+</div>
+</div>
+</div>    
+{% block content %}
+{% endblock %}
+
+
+<!--------------------------password------------------------------------------------------------------------------>
+
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModalp" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="up()">×</button>
+                              <h4 class="modal-title" id="myModalLabel">Change Password!!</h4>
+                              </div>
+                              
+                            <div class="modal-body" id="notepass">
+
+
+
+
+<form id="addform" class="form-horizontal">
+{% csrf_token %}
+    
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcpass">New password:</label>
+    <div class="controls">
+        <input type="password" id="npass" name="npass" placeholder="Enter new password" style="height:23px;">
+<br>
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label" for="inputpcpass">Re-Enter new password:</label>
+    <div class="controls">  
+        <input type="password" id="npass2" name="npass2" placeholder="Re-Enter new password" style="height:23px;">
+
+<p id="p2" style="visibility:hidden;color:red">password didn't match</p>
+    </div>
+    </div>
+
+<input type="hidden" name="user" id="user" value="{{user.id}}">
+<input type="button" class="btn btn-primary" value="Change password" onclick="return checkj()">
+</form>
+                                  
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="up()">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+    
+<!--------------------------password------------------------------------------------------------------------------>
+
+
+</body>
+</html>
+

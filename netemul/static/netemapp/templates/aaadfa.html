@@ -1,0 +1,98 @@
+{% extends 'netemapp/templates/base.html' %}
+{% block title %}
+Add Delete PCs
+{% endblock %}
+{% block javascript %}
+<script>
+function scanpcadd(){
+var mac_ip=document.querySelector('input[name="addpc"]:checked').value;
+var mac=mac_ip.substring(0,17);
+var ip=mac_ip.substring(18);
+document.getElementById("addform").elements[0].value=ip;
+document.getElementById("addform").elements[3].value=mac;
+
+
+}
+
+function scans(){
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("scanpcs").innerHTML=xmlhttp.responseText;
+    }
+  }
+var startip=document.getElementById("scanstartip").value;
+var endip=document.getElementById("scanendip").value;
+xmlhttp.open("GET","/simulation/scanforpc/?start="+startip+"&end="+endip,true);
+xmlhttp.send();
+}
+
+function updatepc(){
+var xmlhttp=new XMLHttpRequest();
+var sub = document.getElementById("subnet").value;
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("updatepc").innerHTML=xmlhttp.responseText;
+    }
+  }
+
+xmlhttp.open("GET","/simulation/update/?subnet="+sub,true);
+xmlhttp.send();
+}
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <link rel="stylesheet" href="/static/netemapp/css/add_del.css" />
+<div id="add">
+Add PCs
+
+<form id="addform" action="/simulation/addpc/" method="POST">
+PC IP address:<input type="text" name="pcip"><br>
+{% csrf_token %}
+PC Name: <input type="text" name="pcname"><br>
+Password:<input type="password" name="pcpass"><br>
+<input type="hidden" name="mac" value="">
+Interface:<select name="interface">
+{%for inta in interfaces%}
+<option value='{{inta}}'>{{inta}}</option>
+{%endfor%}
+<input type="submit" value="Add PC">
+</form>
+</div>
+<div id="delete">
+Delete PCs
+<form id="delform" method="POST" action="/simulation/delpc/">
+{% csrf_token %}
+{% for host in hosts %}
+<input type="checkbox" name="delid" value="{{ host.id }}">  {{host.hostip}}  {{host.hostiface}}  {{host.hostname}} </br>
+
+{% endfor %}
+<input type="submit">
+</br>
+</form>
+</div>
+<div id="scan">
+<input id="scanstartip" type="text">
+<input id="scanendip" type="text">
+<button type="button" onclick="scans()">scan</button>
+<div id="scanpcs">
+</div>
+<form id="updateform" method="POST" action="/simulation/updatepc/">
+    {% csrf_token %}
+{% for host in hosts %}
+
+<input type="radio" name="delid" value="{{ host.id }}">  {{host.hostip}}  {{host.hostiface}}  {{host.hostname}} </br>
+
+{% endfor %}
+<input type="submit">
+<div id="updatepc"></div>
+
+{% endblock %}

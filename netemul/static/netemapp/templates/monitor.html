@@ -1,0 +1,32 @@
+{% extends 'netemapp/templates/base.html' %}
+{% block title %}
+Add Delete PCs
+{% endblock %}
+{% block javascript %} 
+{% endblock %}
+
+{% block content %}
+<br><br>
+<h3>List of pc's Selected</h3>
+<center>
+<table class="table table-bordered"  style="width:700px">
+<tr>
+<th><center>PC IP</center></th>
+<th><center>PC NAME</center></th>
+</tr>
+
+{% for host in hosts %}
+    {% for pcs in pc %}
+            {% ifequal host.id|slugify pcs %}
+<tr>
+{% csrf_token %}
+<input type="hidden" name="iface{{host.id}}" value="{{host.hostiface}}">
+<input type="hidden" name="hostip" id="{{host.hostip}}" value="{{host.hostip}}">
+<td><center>{{ host.hostip }}</center></td><td><center>{{ host.hostname }}</center> </td>
+</tr>
+{% endifequal %}
+{% endfor %}
+{% endfor %}
+</table>
+</center>
+{% endblock %}

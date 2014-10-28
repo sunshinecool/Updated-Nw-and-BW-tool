@@ -1,0 +1,178 @@
+{% extends 'netemapp/templates/base.html' %}
+{% block title %}
+Add Delete PCs
+{% endblock %}
+{% block javascript %} 
+<script type="text/javascript">
+//function vis1()
+//{
+//var vis=document.getElementById('vistag2');
+//vis.style.visibility='hidden'
+//var vis=document.getElementById('vistag');
+//vis.style.visibility='visible'
+//}
+//function vis2()
+//{
+//var vis=document.getElementById('vistag');
+//vis.style.visibility='hidden'
+//var vis=document.getElementById('vistag2');
+//vis.style.visibility='visible'
+//}
+function info(pcs[])
+{
+alert("hi");
+alert(pcs[1]);
+//alert(a);
+//alert(b);
+return false;
+}
+function copytext()
+{
+
+}
+</script>
+{% endblock %}
+
+{% block content %}
+
+<br><br>
+<form id="info" class="form-horizontal" action="/simulation/result/" method="POST" onsubmit="return info({{pc}})">
+<!-- <label><h4>Do you want to give same parameters</h4></label>
+<input type="button" id="param1" name="param1" value="Yes" onclick="vis1()">
+<input type="button" id="param2" name="param2" value="No" onclick="vis2()"> -->
+<h3>List of PC's Simulated</h3>
+<center>
+<table class="table table-bordered"  style="width:700px">
+<tr>
+<th><center>PC IP</center></th>
+<th><center>PC NAME</center></th>
+<th><center>DELAY</center></th>
+<th><center>LOSS</center></th>
+<th><center>BANDWIDTH</center></th>
+</tr>
+<input type="hidden" name="simid" value="{{simid}}">
+{% for host in hosts %}
+    {% for pcs in pc %}
+            {% ifequal host.id|slugify pcs %}
+<tr>
+{% csrf_token %}
+<input type="hidden" name="iface*{{host.id}}" value="{{host.hostiface}}">
+<td><center>{{ host.hostip }}</center></td><td><center>{{ host.hostname }}</center> </td>
+<td><center><input type="text" id="delay*{{host.id}}" name="delay*{{host.id}}" placeholder="Enter Delay" style="height:23px;width:80px"></center> </td>
+<td><center><input type="text" id="loss*{{host.id}}" name="loss*{{host.id}}" placeholder="Enter Loss"  style="height:23px;width:80px"></center> </td>
+<td><center><input type="text" name="bw*{{host.id}}" id="bw*{{host.id}}" placeholder="Enter Bandwidth" style="height:23px;width:120px"><br></center> </td>
+<!--<td><input type="button" class="btn btn-primary" value="Delete"></td>-->
+</tr>
+{% endifequal %}
+{% endfor %}
+{% endfor %}
+</table>
+</center>
+<center><input type="submit" class="btn btn-primary" value="Submit"></center>
+</form>
+<!-- </br>
+</form>
+
+<form method="post" onclick="function()">
+{% csrf_token %} 
+    <input type="submit" class="btn btn-primary" value="Simulate"> -->
+
+
+
+
+<!--<div style="visibility:hidden;position:absolute" id="vistag">
+{% for host in hosts %}
+    {% for pcs in pc %}
+            {% ifequal host.id|slugify pcs %}
+
+
+{% endifequal %}
+{% endfor %}
+{% endfor %}
+
+
+<form id="addform" class="form-horizontal" action="/simulation//" method="POST" onsubmit="">
+<h3>Give Parameters</h3>
+<div id="parameters">
+{% csrf_token %}
+                <input type="hidden" name="simid" value="{{simid}}">
+                
+    <div class="control-group">
+<label class="control-label" for="inputpcip">Loss:</label>
+<div class="controls">
+<input type="text" id="loss" name="loss" placeholder="Enter Loss"  style="height:30px;">
+</div>
+</div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcname">Bandwidth:</label>
+    <div class="controls">
+        <input type="text" name="band" id="band" placeholder="Enter Bandwidth" style="height:30px;"><br>
+    </div>
+    </div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcpass">Delay:</label>
+    <div class="controls">
+        <input type="password" id="delay" name="delay" placeholder="Enter Delay" style="height:30px;">
+<br>
+    </div>
+    </div>
+</br>
+</div>
+<center><input type="submit" class="btn btn-primary" value="Submit"></center>
+</form>
+
+
+
+</div> 
+<div style="visibility:hidden;position:absolute" id="vistag2"> -->
+<!--
+<form id="info" class="form-horizontal" action="/simulation/result/" method="POST" onsubmit="return info({{pc}})">
+<center><h3>Give Parameters</h3></center>
+<input type="button" id="param1" name="param1" value="Copy" onclick="copy();">
+<input type="hidden" name="simid" value="{{simid}}">
+{% for host in hosts %}
+    {% for pcs in pc %}
+            {% ifequal host.id|slugify pcs %}
+<h5>IP Address:{{ host.hostip }}</h5>
+<h5>PC Name:{{ host.hostname }}</h5>
+<div id="parameters">
+{% csrf_token %}
+<input type="hidden" name="iface{{host.id}}" value="{{host.iface}}">
+<input type="hidden" name="hostip" id="{{host.hostip}}" value="{{host.hostip}}">
+
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcpass">Delay:</label>
+    <div class="controls">
+        <input type="text" id="delay{{host.id}}" name="delay{{host.id}}" placeholder="Enter Delay" style="height:23px;">
+</br>
+</div>
+</div>
+
+
+
+       <div class="control-group">
+<label class="control-label" for="inputpcip">Loss:</label>
+<div class="controls">
+<input type="text" id="loss{{host.id}}" name="loss{{host.id}}" placeholder="Enter Loss"  style="height:23px;">
+</div>
+</div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcname">Bandwidth:</label>
+    <div class="controls">
+        <input type="text" name="bw{{host.id}}" id="bw{{host.id}}" placeholder="Enter Bandwidth" style="height:23px;"><br>
+    </div>
+    </div>
+
+{% endifequal %}
+{% endfor %}
+{% endfor %}
+<br>
+<center><input type="submit" class="btn btn-primary" value="Submit"></center>
+</form>-->
+
+
+{% endblock %}

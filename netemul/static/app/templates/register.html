@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <title>Rango</title>
+<script>
+$(document).ready(function(){
+  $("#user_form").submit(function(){
+    alert("Submitted");
+  });
+  $("#1").click(function(){
+    $("#user_form").submit();
+  });  
+});
+
+</script>
+
+
+
+    </head>
+
+    <body>
+      <!--  {% if registered %}
+        <strong>you registerd the user</strong>
+        
+        {% else %} --->
+        <strong><h1>Register The user</h1></strong><br />
+
+        <form id="user_form" method="post" action="/app/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Display each form. The as_p method wraps each element in a paragraph
+                 (<p>) element. This ensures each element appears on a new line,
+                 making everything look neater. -->
+            {{ user_form.as_p }}
+
+            <!-- Provide a button to click to submit the form. -->
+            <button type="submit" id="1" name="submit">Register</button><!-- data-target="#myModal3" data-toggle="modal"/> -->
+        </form>
+        {% endif %}
+<!-------------------------------------------------------------------------------------------------------------------->
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h4 class="modal-title" id="myModalLabel">Register Users!!</h4>
+                              </div>
+                              
+                            <div class="modal-body" id="try3">
+
+                           </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+<!-------------------------------------------------------------------------------------------------------------------->
+
+    </body>
+</html>

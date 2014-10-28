@@ -1,0 +1,294 @@
+{% extends 'netemapp/templates/base.html' %}
+{% block title %}
+home
+{% endblock %}
+{% block javascript %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+function register()
+{
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+
+    document.getElementById("try1").innerHTML=xmlhttp.responseText;
+   // document.getElementById("scanpcs").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","/app/register/",true);
+xmlhttp.send();
+}
+
+function delu(a)
+{
+var b=confirm('Are you sure you want to delete');
+if(b)
+{
+var xmlhttp=new XMLHttpRequest();
+var z=a;
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("delup").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","/app/delu/?hid="+z,true);
+xmlhttp.send();
+}
+}
+function upr()
+{
+location.reload();
+}
+
+$(document).ready(function(){
+  $("#user_form").submit(function(){
+    alert("Submitted");
+  });
+  $("#1").click(function(){
+    $("#user_form").submit();
+  });  
+});
+</script>
+{% endblock %}
+{% block content %}
+{% for bl in users %}
+    {% ifequal user.username bl.username %}
+
+<br>
+<br>
+<br> 
+<ul class="nav nav-pills">
+    <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      Manage Users <span class="caret"></span>
+    </a>
+        <ul class="dropdown-menu">
+        <li><a href="" data-target="#myModal" data-toggle="modal">View Users</a></li>
+        <li><a data-target="#myModal2" data-toggle="modal" onclick="register()">Add Users</a></li>
+        <li><a href="" data-target="#myModal1" data-toggle="modal">Delete Users</a></li>
+        </ul>
+    </li>
+    
+    <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      Download Files <span class="caret"></span>
+    </a>
+        <ul class="dropdown-menu">
+        <li><a href="">Linux</a><li>
+        <li><a href="">Windows</a><li>
+        <li><a href="">others</a><li>
+        </ul>
+    </li>
+    <li>
+    <a href="/simulation/add_del/">
+      Manage Systems
+    </a>
+        
+    </li>
+</ul>
+
+<br>
+<br>
+    <br>       
+                      <center>
+                        <li>
+                        <ul><a href="/simulation/add_del1/"><h1>SIMULATION</h1></a></ul><br><br>
+                        <ul><a href="/simulation/add_del2/"><h1>MONITERING</h1></a></ul><br><br>
+                        <ul><a href="/simulation/graph/"><h1>GRAPHS</h1></a><ul><br><br>
+                        </center>
+            
+    {% endifequal %}
+{% endfor %}
+{% for bl in guestsdetails %}
+    {% ifequal user.username bl.username %}
+<br><br><br><br><br><br><br><br><br>        
+<center>
+<a href="/simulation/graph/"><h1>GRAPHS</h1></a><br><br>
+</center>
+    {% endifequal %}
+{% endfor %}
+
+
+
+<!-----------------------------------------------------View Guests---------------------------------------------------->
+
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h4 class="modal-title" id="myModalLabel">List of Users</h4>
+                              </div>
+                              
+                            <div class="modal-body">
+
+
+<h3>Testers</h3>
+                        <table class="table table-striped" style="width:600px">
+        <th>Username</th>
+        <th>E-mail</th>
+                        {% for bl in users %}
+                        <tr>
+                        <td>{{ bl.username }}</td>
+                        <td>{{ bl.email }}</td></tr>
+                        {% endfor %}
+        </table>
+                       <h3>Analysts</h3>
+                        <table class="table table-striped" style="width:600px">
+        <th>Username</th>
+        <th>E-mail</th> 
+                        {% for bl in guestsdetails %}
+                        <tr><td>{{ bl.username }}</td>
+                         <td>{{ bl.email }}</td></tr>
+                        {% endfor %}
+            </table>
+                                  
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+    
+<!------------------------------------------View guests------------------------------------------------------------->
+<!-------------------------------------------Delete guests---------------------------------------------------------->
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="upr()">×</button>
+                              <h4 class="modal-title" id="myModalLabel">Delete Users</h4>
+                              </div>
+                              
+                            <div class="modal-body" id="delup">
+
+
+<h3>Tester's</h3>
+                        <table class="table table-striped" style="width:600px">
+        <th>Username</th>
+        <th>E-mail</th>
+        <th>Delete</th>
+                        {% for bl in users %}
+                        <tr>
+                        <td>{{ bl.username }}</td>
+                        <td>{{ bl.email }}</td>
+
+                        <form id="delu">
+                        
+                        <td><input type="button" class="btn btn-small btn-primary" value="Delete" style="height:20px" onclick="delu({{bl.id}})"></td>
+                        </form>
+
+
+</tr>
+                        {% endfor %}
+        </table>
+                       <h3>Analyst's</h3>
+                        <table class="table table-striped" style="width:600px">
+        <th>Username</th>
+        <th>E-mail</th> 
+                       <th>E-mail</th> {% for bl in guestsdetails %}
+                        <tr><td>{{ bl.username }}</td>
+                         <td>{{ bl.email }}</td>
+                        <form id="delu1">
+                        <input type="hidden" name="hid" id="hid" value="{{ bl.id }}">
+                        <td><input type="button" class="btn btn-small btn-primary" value="Delete" style="height:20px" onclick="delu({{bl.id}})"></td>
+                        </form>
+
+
+</tr>
+                        {% endfor %}
+            </table>
+                                  
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="upr()">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+  <!----------------------------------------Delete guests----------------------------------------------------------->
+
+<!-------------------------------------------Register guests---------------------------------------------------------->
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                              <h4 class="modal-title" id="myModalLabel">Register Users!!</h4>
+                              </div>
+                              
+                            <div class="modal-body" id="try1">
+
+                           </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+  <!----------------------------------------Add guests----------------------------------------------------------->
+
+
+{% endblock %}
+
+
+

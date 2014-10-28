@@ -1,0 +1,96 @@
+{% extends 'netemapp/templates/base.html' %}
+{% block title %}
+Result
+{% endblock %}
+
+{% block content %}
+<script type="text/javascript"> 
+$(document).ready(function() { 
+$(".teststart").click(function(){ 
+            var time=$("#timeselect").val();
+            console.log(time);
+            if(time=="default")
+            {
+            var id = this.value; 
+            alert(id); 
+            var btn = $(this)
+	    $.ajax({
+		url : "http://localhost:8000/monitor/lstest/?id="+id
+		});
+            }
+           else {
+            var id = this.value; 
+            alert(id); 
+            var btn = $(this)
+	    $.ajax({
+		url : "http://localhost:8000/monitor/lstimetest/?id="+id+"&time="+time
+		});
+            }
+        	
+        }); 
+ $(".teststop").click(function(){ 
+            var id = this.value; 
+            alert(id); 
+              
+            var xmlhttp=new XMLHttpRequest();  
+            xmlhttp.onreadystatechange=function() 
+              { 
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) 
+                    { 
+
+                    //    console.log(xmlhttp.responseText);
+                        document.getElementById(id).innerHTML=xmlhttp.responseText; 
+                        alert("Testing done");
+                    } 
+              } 
+            xmlhttp.open("GET","/monitor/kill/?id="+id,true); 
+            xmlhttp.send(); 
+        }); 
+}); 
+</script>
+<br>
+<br>
+<h3>Simalation Successful for the following PCs.</h3>
+<h6>Simulation ID: {{simid}}</h6>
+<a>Monitor Results</a>
+<br>
+<center>
+<table border="1" style="width:900px" class="table table-bordered">
+<th><center>IP of PC</center></th>
+<th><center>PC ID</center></th>
+<th><center>Delay</center></th>
+<th><center>Loss</center></th>
+<th><center>Bandwidth</center></th>
+<th><center>Start</center></th>
+<th><center>Stop</center></th>
+<th><center>Graph</center></th>
+<th><center>Live Data</center></th>
+<th><center>Time</center></th>
+{% for pc in allpc %}
+<tr>
+<td><center>{{pc.pcip}}</center></td>
+<td><center>{{pc.pcid}}</center></td>
+<td><center>{{ pc.simulationparams.delay }}</center></td>
+<td><center>{{ pc.simulationparams.loss }}</center></td>
+<td><center>{{ pc.simulationparams.bw }}</center></td>
+<td><center><button type="button" data-loading-text="Loading..." class="btn btn-primary teststart" value="{{pc.pcid}}@{{pc.simid}}" > Start </button></center></td>
+<td><center><button type="button" class="teststop" value="{{pc.pcid}}@{{pc.simid}}" > Stop </button></center></td>
+<td><center>
+        <a href="/monitor/charts/?id={{pc.pcid}}@{{pc.simid}}" target="_blank">Graphs</a>
+</center></td>
+<td><center>
+        <a href="/monitor/?simid={{pc.simid}}" target="_blank">LiveData</a>
+</center></td>
+<td><center>
+   <select id="timeselect">
+  <option value="5">5</option>
+  <option value="10">10</option>
+  <option value="20">20</option>
+  <option value="default" selected>Default</option>
+</select> 
+</center></td>
+</tr>
+{% endfor %}
+</table>
+</center>
+{% endblock %}

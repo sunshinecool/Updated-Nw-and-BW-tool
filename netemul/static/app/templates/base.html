@@ -1,0 +1,16 @@
+<html>
+<head>
+<script type="text/javascript">
+function goback()
+{
+window.history.back()
+}
+</script>
+</head>
+WELCOME {{user.username}}<br>
+<a href="/app/logout">logout</a><br><br>
+<button name="button" type="button" value="go back" onclick="goback()">GO BACK</button><br><br>
+</html>
+{% block content %}
+this is default
+{% endblock %}

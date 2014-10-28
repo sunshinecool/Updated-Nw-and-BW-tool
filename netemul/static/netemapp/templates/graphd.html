@@ -1,0 +1,19 @@
+<center>
+<h5>Simulations on {{date_s}}</h5>
+<table border="2" class="table table-bordered" style="width:500px">
+<th>Simulation ID</th>
+<th>IP Address</th>
+<th>Data</th>
+<th>Graph</th>
+{% for data in data %}
+<tr>
+<td>{{data.simid}}</td>
+<td>{{data.pcip}}</td>
+<td>{{data.pcid}}</td>
+<td><button>Show data</button></td>
+<td> <a href="/monitor/charts/?id={{data.pcid}}@{{data.simid}}" target="_blank">Graphs</a>
+</td>
+</tr>
+{% endfor %}
+<table>
+</center>

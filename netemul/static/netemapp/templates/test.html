@@ -1,0 +1,19 @@
+{% extends 'netemapp/templates/base.html' %} 
+{% block content %}
+<link rel="stylesheet" href="/static/netemapp/css/test.css" />
+<form action="/simulation/result/" method="POST">
+<input type="checkbox" name="sameforall">
+<br/>
+<input type="hidden" name="simid" value="{{simid}}">
+{%  for pc in hostdata %}	
+<h3>Test for IP : {{pc.ip}} Interface : {{pc.iface}}</h3></br>
+<input type="hidden" name="iface*{{pc.id}}" value="{{pc.iface}}">
+Delay : <input type="text" name="delay*{{pc.id}}"></br>
+Loss : <input type="text" name="loss*{{pc.id}}"></br>
+Bandwidth : <input type="text" name="bw*{{pc.id}}"></br>
+</br>
+{% endfor %}	
+<input type="submit">
+
+</form>
+{% endblock %}

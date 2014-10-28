@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+{% load static %} 
+
+<html lang="en">
+  <head>
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="/static/netemapp/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/netemapp/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/static/netemapp/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/netemapp/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/static/netemapp/css/bootstrap-fluid-adj.css" rel="stylesheet">
+    <script src="static/netemapp/js/bootstrapjs"></script>
+    <script src="static/netemapp/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    </head>
+  
+<body>
+<div id="add">
+<form id="addform" class="form-horizontal" action="/simulation//" method="POST" onsubmit="">
+{% csrf_token %}
+<h3>PARAMETERS</h3>
+    <div class="control-group">
+<label class="control-label" for="inputpcip">Ip Address:</label>
+<div class="controls">
+<input type="text" id="pcip" name="pcip" placeholder="Ip Address"  style="height:30px;">
+</div>
+</div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcname">PC Name:</label>
+    <div class="controls">
+        <input type="text" name="pcname" id="pcname" placeholder="IP name" style="height:30px;"><br>
+    </div>
+    </div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpcpass">Password:</label>
+    <div class="controls">
+        <input type="password" id="pcpass" name="pcpass" placeholder="Password" style="height:30px;">
+<br>
+    </div>
+    </div>
+   
+<div class="control-group">
+    <label class="control-label" for="inputInterface">Interface:</label>
+    <div class="controls">
+        <select class="selectpicker" name="interface" id="interface"  style="height:30px;">
+        
+            <option value='eth0'>eth0</option>
+        
+            <option value='wlan0'>wlan0</option>
+        
+        </select>
+</div>
+    </div>
+<input type="submit" class="btn btn-primary" value="Update">
+</br>
+</form>
+</div>
+</body>

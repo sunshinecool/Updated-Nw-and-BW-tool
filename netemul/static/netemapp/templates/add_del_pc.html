@@ -1,0 +1,564 @@
+{% extends 'netemapp/templates/base.html' %}
+{% block title %}
+Add Delete PCs
+{% endblock %}
+{% block javascript %}
+
+
+<script type="text/javascript">
+function scanpcadd(){
+var mac_ip=document.querySelector('input[name="addpc"]:checked').value;
+var mac=mac_ip.substring(0,17);
+var ip=mac_ip.substring(18);
+document.getElementById("addform").elements[0].value=ip;
+document.getElementById("addform").elements[3].value=mac;
+}
+function scans(){
+var no=document.getElementById("scanstartip");
+var IPText=no.value;
+//var eid=noo.search(/^[0-2][0-5][0-5]{1,3}\.{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/);
+//if(eid==-1 )
+	//{
+	//alert("Enter correct IP Address");
+	//no.focus();
+	//return false;
+	//}
+ValidIP = false;   
+    ipParts = IPText.split(".");  
+    if(ipParts.length==4){  
+      for(i=0;i<4;i++){  
+          
+        TheNum = parseInt(ipParts[i]);  
+        if(TheNum >= 0 && TheNum <= 255){}  
+        else{break;}  
+          
+      }  
+      if(i==4)ValidIP=true;   
+    }  
+   if(ValidIP==false)
+    {
+    alert("Enter correct IP Address");  
+    return false;
+    }
+var no=document.getElementById("scanendip");
+var noo=no.value;
+if(noo<0||noo>255)
+	{
+	alert("Enter correct IP Address Range between 0-255");
+	no.focus();
+	return false;
+	}
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("scanpcs").innerHTML=xmlhttp.responseText;
+    }
+  }
+var startip=document.getElementById("scanstartip").value;
+var endip=document.getElementById("scanendip").value;
+xmlhttp.open("GET","/simulation/scanforpc/?start="+startip+"&end="+endip,true);
+xmlhttp.send();
+}
+
+function updatepc(){
+var xmlhttp=new XMLHttpRequest();
+var sub = document.getElementById("subnet").value;
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("updatepc").innerHTML=xmlhttp.responseText;
+    }
+  }
+
+xmlhttp.open("GET","/simulation/update/?subnet="+sub,true);
+xmlhttp.send();
+}
+
+
+function try1(a)
+{
+//$('#fid').popover(data-animation="False");
+var xmlhttp=new XMLHttpRequest();
+var sub = document.getElementById("fid").value;
+sub=a;
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+         document.getElementById("try").innerHTML=xmlhttp.responseText;
+   // document.getElementById("scanpcs").innerHTML=xmlhttp.responseText;
+
+    }
+  }
+xmlhttp.open("GET","/simulation/updatepcinfo/?pid="+sub,true);
+xmlhttp.send();
+//$('#fid').popover(data-animation="true")
+return false;
+}
+
+function simfun()
+{
+var a=$("input[name=hostid]:checked").length;
+if(a==0)
+    {
+        alert("select pc's to be simulated");
+        return false;
+    }
+}
+
+
+function monitorcheck()
+{
+var a=$("input[name=hostid]:checked").length;
+if(a==0)
+    {
+        alert("select pc's to be Monitered");
+        return false;
+    }
+}
+
+
+function try2()
+{
+var no1=document.getElementById("pcname1");
+var noo1=no1.value;
+if(noo1=="" )
+	{
+	alert("Enter Pc name");
+	no1.focus();
+	return false;
+	}
+var no1=document.getElementById("pcpass1");
+var noo1=no1.value;
+if(noo1=="" )
+	{
+	alert("Enter Password");
+	no1.focus();
+	return false;
+	}
+var no1=document.getElementById("Interface11");
+var noo1=no1.value;
+if(noo1=="" )
+	{
+	alert("Select Interface");
+	no1.focus();
+	return false;
+	}
+}
+
+function check()
+{
+
+var no=document.getElementById("pcip");
+var noo=no.value;
+if(noo=="" )
+	{
+	alert("Enter IP Address");
+	no.focus();
+    return false;
+	}
+var no=document.getElementById("pcip");
+var IPText=no.value;
+//var eid=noo.search(/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/);
+//if(eid==-1 )
+	//{
+	//alert("Enter correct IP Address");
+	//no.focus();
+	//return false;
+	//} 
+    ValidIP = false;   
+    ipParts = IPText.split(".");  
+    if(ipParts.length==4){  
+      for(i=0;i<4;i++){  
+          
+        TheNum = parseInt(ipParts[i]);  
+        if(TheNum >= 0 && TheNum <= 255){}  
+        else{break;}  
+          
+      }  
+      if(i==4)ValidIP=true;   
+    }  
+   if(ValidIP==false)
+    {
+    alert("Enter correct IP Address");  
+    no.focus();
+    no.select();
+    return false;
+    }
+var no=document.getElementById("pcname");
+var noo=no.value;
+if(noo=="" )
+	{
+	alert("Enter Pc name");
+	no.focus();
+	return false;
+	}
+var no=document.getElementById("pcpass");
+var noo=no.value;
+if(noo=="" )
+	{
+	alert("Enter Password");
+	no.focus();
+	return false;
+	}
+var no=document.getElementById("Interface");
+var noo=no.value;
+if(noo=="" )
+	{
+	alert("Select Interface");
+	no.focus();
+	return false;
+	}
+}
+
+function myfunction()
+{
+window.open("/simulation/upch/", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=200, left=200, width=600, height=400");
+}
+
+
+// function doConfirm(msg, yesFn, noFn) {
+    //var confirmBox = $("#confirmBox");
+   // confirmBox.find(".message").text(msg);
+  //  confirmBox.find(".yes,.no").unbind().click(function () {
+      //  confirmBox.hide();
+    //});
+   // confirmBox.find(".yes").click(yesFn);
+ //   confirmBox.find(".no").click(noFn);
+//    confirmBox.show();
+//} 
+</script>
+</script>
+<!--<link href="text/javascript" src="/static/netemapp/js/bootstrap.js" rel="stylesheet" media="screen">
+<link href="text/javascript" src="/static/netemapp/js/bootstrap.min.js" rel="stylesheet" media="screen">-->
+<script>
+
+
+//$(function () {
+  //  $("#delform").submit(function (e) {
+    //    e.preventDefault();
+      //  var form = this;
+        //doConfirm("Do you want to give same parameters to all systems?", function yes() {
+          //  window.open("/simulation/delpc/", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=200, left=200, width=600, height=400");
+        //}, function no() {
+         //   window.open("/simulation/giveparameters2/", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=200, left=200, width=600, height=400");
+        //});
+   // });
+// });   
+function updatecheck()
+{
+
+var no=document.getElementById("pcname1");
+var noo=no.value;
+if(noo=="" )
+	{
+	alert("Enter Pc name");
+	no.focus();
+	return false;
+	}
+var no=document.getElementById("pcpass1");
+var noo=no.value;
+if(noo=="" )
+	{
+	alert("Enter Password");
+	no.focus();
+	return false;
+	}
+var xmlhttp=new XMLHttpRequest();
+var sub1 = document.getElementById("id1").value;
+var sub2 = document.getElementById("pcname1").value;
+var sub3= document.getElementById("pcpass1").value;
+var sub4= document.getElementById("interface1").value;
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("trys").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","/simulation/up/?id1="+sub1+"&pcname1="+sub2+"&pcpass1="+sub3+"&interface1="+sub4,true);
+xmlhttp.send();
+
+}      
+function deletecheck(a)
+{
+var z=a
+var b=confirm('Are you sure you want to delete');
+if(b)
+{
+var xmlhttp=new XMLHttpRequest();
+var sub=z
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    
+ document.getElementById("trydel").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","/simulation/delb/?did="+sub,true);
+xmlhttp.send();
+
+}
+else
+{
+//document.getElementById("trydel").innerHTML="you deleted deletion".
+return false;
+}
+}        
+function upr()
+{
+location.reload();
+}       
+</script>
+
+<style>
+body { font-family: sans-serif; }
+#confirmBox
+{
+    display: none;
+    background-color: #eee;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    position: fixed;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+    padding: 6px 8px 8px;
+    box-sizing: border-box;
+    text-align: center;
+}
+#confirmBox .button {
+    background-color: #ccc;
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    padding: 2px;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+}
+#confirmBox .button:hover
+{
+    background-color: #ddd;
+}
+#confirmBox .message
+{
+    text-align: left;
+    margin-bottom: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="container" style="width:100%;">
+    <div id="left" style="float:left; width:50%;">
+
+        <div id="add">
+        <form id="addform" class="form-horizontal" action="/simulation/addpc/" method="POST" onsubmit="return check();">
+        {% csrf_token %}
+        <br>
+        <br>
+        <h3>Add Systems</h3>
+        <div class="control-group">
+        <label class="control-label" for="inputpcip">Ip Address:</label>
+        <div class="controls">
+        <input type="text" id="pcip" name="pcip" placeholder="Ip Address"  style="height:23px;">
+        </div>
+        </div>
+
+        <div class="control-group">
+        <label class="control-label" for="inputpcname">Username:</label>
+        <div class="controls">
+            <input type="text" name="pcname" id="pcname" placeholder="IP name" style="height:23px;"><br>
+        </div>
+        </div>
+
+        <div class="control-group">
+        <label class="control-label" for="inputpcpass">Password:</label>
+        <div class="controls">
+            <input type="password" id="pcpass" name="pcpass" placeholder="Password" style="height:23px;">
+        <br>
+        </div>
+        </div>
+   
+        <div class="control-group">
+        <label class="control-label" for="inputInterface">Interface:</label>
+        <div class="controls">
+        <input type="hidden" name="mac" value="">
+        <select class="selectpicker" name="interface" id="interface"  style="height:32px;">
+        <option value='eth0'>eth0</option>
+        <option value='wlan0'>wlan0</option>
+        </select>
+        </div>
+        </div>
+    
+       <input type="submit" class="btn btn-primary" value="ADD System">
+        </br>
+        </form>
+        </div>      <!--div="add" for adding pc-->
+        <!------------------------------------------------------------------- -->
+        <form>
+        <div id="scanpcs">
+        <div class="control-group">
+        <label class="control-label" for="inputscanstartip">SCAN:</label>
+        <div class="controls">
+        <input type="text" name="scanstartip" id="scanstartip" placeholder="IP address start" style="height:23px;">
+        to <input type="text" name="scanendip" id="scanendip" placeholder="IP address end" style="height:23px;">
+        </div> 
+        </div>
+        <button type="button" class="btn btn-primary" onclick="scans()">scan</button>
+        </div>    <!--div="scan" for scanning pc -->
+        </form>
+        <!-------------------------------------------------------------------->
+        <form id="updateform" method="POST" action="/simulation/updatepc/">
+        {% csrf_token %}
+        {% for host in hosts %}
+        <input type="radio" id="delid" name="delid" value="{{ host.id }}">  {{host.hostip}}  {{host.hostiface}}  {{host.hostname}} </br>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary" value="UPDATE IP">
+        </form>
+        <div id="updatepc"></div>   <!-- updating pc "Ajax Response"-->
+    </div> <!-- left side div -->
+<!--------------------------------------------------------------------------------------------------------------------->
+    <div id="right" style="float:right; width:50%;">
+        <br>
+        <br>
+        <div>
+        {% ifequal i 0 %}
+           <br>
+       <p style="color:red">No systems Added</p>
+        {% else %}
+     
+        
+        
+        
+        <h3>List of PC's</h3>
+        <div id="try1"></div>
+        <table class="table table-striped" style="width:600px">
+        
+        <th>PC IP</th>
+        <th>USERNAME</th>
+        <th>DELETE</th>
+        <th>UPDATE</th>
+        {% for host in hosts %}
+        <tr>
+        <input type="hidden" name="hid" id="hid" value="{{ host.id }}">
+        
+        <td>{{ host.hostip }}</td><td>{{ host.hostname }} </td>
+                        
+                        <input type="hidden" name="did" id="did" value="{{ host.id }}">
+                        <td><input type="button" class="btn btn-small btn-primary" value="Delete" style="height:20px" onclick="return deletecheck({{host.id}})" data-toggle="modal" data-target="#myModaldel"></td>
+                        
+                         
+                        <input type="hidden" name="pid" id="pid" value="{{ host.id }}">
+                        <td><button class="btn btn-mini btn-primary" data-toggle="modal" data-target="#myModal" id="fid" value="{{ host.id }}" onclick="return try1({{host.id}})" style="height:20px">Update</button></td></tr>
+                        
+        {% endfor %}
+        </table>
+        
+        </form>
+  
+        </div>
+{% endifequal %}
+        <!--  </br>
+        </form>
+
+        <form method="post" onclick="function()">
+        {% csrf_token %} 
+            <input type="submit" class="btn btn-primary" value="Simulate"> 
+        </form>
+
+        <div id="confirmBox">
+            <div class="message"></div>
+            <span class="button yes">Yes</span>
+            <span class="button no">No</span>
+        </div> -->
+   <!-- <div id="try"></div> -->
+    </div> <!-- right side div tag -->
+</div> <!-- right and left div tag -->
+
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="upr()">×</button>
+                              <h4 class="modal-title" id="myModalLabel">Update System Details</h4>
+                              </div>
+                              
+                            <div class="modal-body" id="try">
+                                  
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="upr()">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+<!-------------------------------------------------------------------------------------------------------------------->
+<div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-9" role="main">
+
+                    <!-- Modal Example starts here -->
+                    <div class="bs-docs-section">
+
+                      <!-- sample modal content -->
+                      <div id="myModaldel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"  onclick="upr()">×</button>
+                             <h4 class="modal-title" id="myModalLabel">Delete Pc</h4>
+                              </div>
+                              
+                            <div class="modal-body" id="trydel">
+                                  <p style="color:red">Deletion of pc is aborted</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="upr()">Close</button>
+                              
+                            </div>
+
+                          </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                      </div><!-- /.modal -->
+
+                      
+                    </div>
+                    <!-- Modal Example ends here -->
+
+        </div>       
+      </div>
+
+
+
+
+
+
+{% endblock %}
+
+<!--<script src="/static/netemapp/js/bootstrap.min.js"></script>
+<script src="/static/netemapp/js/bootstrap.js"></script> -->
