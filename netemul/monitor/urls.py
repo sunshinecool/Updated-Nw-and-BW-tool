@@ -4,7 +4,7 @@ from monitor import views
 
 urlpatterns = patterns('',
                url(r'^$', 'monitor.views.home', name='home'),
-               url(r'^lstest/', 'monitor.views.lstest'),        
+               url(r'^lstest/', 'monitor.views.newlstest'),        
                url(r'^lstimetest/', 'monitor.views.lstimetest'),        
 #               url(r'^getdata/', 'monitor.views.getdata'), 
                url(r'^test/', 'monitor.views.test'), 
@@ -13,5 +13,5 @@ urlpatterns = patterns('',
                url(r'^livedata/', 'monitor.views.livedata'), 
                url(r'^direcmon/','monitor.views.directmon'),
                url(r'^charts/','monitor.views.chart_view'),
-               url(r'^kill/','monitor.views.kill'),
+               url(r'^kill/','monitor.views.newkill'),
                  )

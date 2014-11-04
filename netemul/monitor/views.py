@@ -11,6 +11,7 @@ import paramiko
 from django.http import HttpResponse,StreamingHttpResponse
 import json
 import datetime
+import subprocess
 from datetime import date
 #from django_socketio import events
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -116,6 +117,59 @@ def lstimetest(request):
     print "dead"
     return HttpResponse("") 
 
+def newlstest(request):
+    testid = request.GET['id']
+    realid = testid
+    print testid
+    testid = testid.split('@')
+    pcid = testid[0]
+    simid = testid[1]
+    pc = host.objects.get(pk=pcid)
+    user=pc.hostname
+    pas=pc.hostpass
+    ip=pc.hostip
+    subprocess.call("echo 1 > assets/"+realid+".txt",shell=True)
+    print realid
+    i=0
+    while True:
+        t=open("assets/"+realid+".txt")
+        r=t.readline()[:-1]
+        if r==str(1):
+            print "ada"
+            subprocess.call("bash assets/Cmonitor.sh "+ip,shell=True)
+
+            t=open('assets/Tests/BandwdthDown0-.csv')
+            bndwdtdown=t.readline()[:-1]
+            if bndwdtdown=="":
+                bndwdtdown="0"
+            print bndwdtdown
+            
+            t=open('assets/Tests/BandwdthUp0-.csv')
+            bndwdtup=t.readline()[:-1]
+            if bndwdtup=="":
+                bndwdtup=="0"
+            print bndwdtup
+            
+            bw_up_down = bw_upload_download(
+                                      simid = simid,
+                                      pcid = int(pcid),
+                                      total_pkts_upload = 0,
+                                      avg_pkts_upload = 0,
+                                      avg_pkts_size_upload = 0,
+                                      bw_upload = float(bndwdtup),
+                                      total_pkts_download = 0,
+                                      avg_pkts_download = 0,
+                                      avg_pkts_size_download = 0,
+                                      bw_download = float(bndwdtdown),
+                                      dataid = int(i))
+            i=i+1
+            bw_up_down.save()
+            print i
+
+        else:
+            return HttpResponse("") 
+
+
 def kill(request):    
     testid = request.GET['id']
     realid = testid
@@ -133,6 +187,12 @@ def kill(request):
     stdin,stdout,stderr = ssh.exec_command("python kill.py")
     ssh.close()
     return HttpResponse("")
+
+def newkill(request):
+    testid = request.GET['id']
+    subprocess.call("echo 0 > assets/"+testid+".txt",shell=True)
+    return HttpResponse("")
+
 
 def test(request):
     getparams= request.GET

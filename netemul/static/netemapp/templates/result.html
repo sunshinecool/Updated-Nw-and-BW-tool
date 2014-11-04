@@ -15,15 +15,16 @@ $(".teststart").click(function(){
             alert(id); 
             var btn = $(this)
 	    $.ajax({
-		url : "http://localhost:8000/monitor/lstest/?id="+id
+		url : "http://127.0.0.1:8000/monitor/lstest/?id="+id
 		});
             }
            else {
             var id = this.value; 
             alert(id); 
             var btn = $(this)
+            xmlhttp.send(); 
 	    $.ajax({
-		url : "http://localhost:8000/monitor/lstimetest/?id="+id+"&time="+time
+		url : "http://127.0.0.1:8000/monitor/lstimetest/?id="+id+"&time="+time
 		});
             }
         	
